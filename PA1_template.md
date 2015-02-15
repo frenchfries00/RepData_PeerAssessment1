@@ -176,7 +176,7 @@ median(StepsPerDay)
 
 We take the proceeded data **a2** and add a new column **week** whose value is equal to *weekday* unless the day was Saturday or Sunday, meaning *weekend*. The plot shows essential difference between activity on weekdays and weekends: the person who took the data wakes up a bit later on weekends, and  instead of going to the office, she/he moves more in total but less predictably.
 
-Note that in this data, missing data was filled uniformly for weekdays and weekends, which spoils the picture. If we take the original data, the difference between weekdays and weekends is even more dramatic.
+Note that in this data, missing data was filled uniformly for weekdays and weekends, which spoils the picture. It would be more correct to take the original data, where the difference between weekdays and weekends is even more dramatic.
 
 
 ```r
