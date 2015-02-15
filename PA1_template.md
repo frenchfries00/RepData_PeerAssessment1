@@ -1,7 +1,6 @@
 ---
 title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
+output: html_document:
     keep_md: true
 ---
 # Reproducible Research: Peer Assessment 1
@@ -63,7 +62,7 @@ Here is a histogram for the number of steps taken for day. We see that it really
 
 
 ```r
-hist(StepsPerDay,breaks=10,col="red",ylab="Days",xlab="Steps per day", main="Steps per day, with missing data not filled")
+hist(StepsPerDay,breaks=10,col="red",ylab="Days",xlab="Steps per day", main="Steps per day, with missing data not filled ")
 ```
 
 ![plot of chunk sumOfSteps](figure/sumOfSteps-1.png) 
@@ -92,7 +91,7 @@ Here is a plot of daily activity pattern. As we can see, the person who took the
 Z<-tbl_df(a) %>% group_by(interval) %>% summarise(mean(steps,na.rm=TRUE))
 names(Z)<-c("interval","meansteps")
 plot(Z$interval,Z$meansteps,type="l",xlab="Day time",ylab="average steps",
-     main="Average of steps per 5 min. interval",col="blue")
+     main="Average of steps per 5 min. interval ",col="blue")
 ```
 
 ![plot of chunk StepsPerInterval](figure/StepsPerInterval-1.png) 
@@ -150,7 +149,7 @@ Because of this artificially added average data, the histogram has now a higher 
 
 ```r
 hist(StepsPerDay,breaks=10,col="red",ylab="Days",xlab="Steps per day", 
-     main="Steps per day, with missing data replaced by average")
+     main="Steps per day, with missing data replaced by average ")
 ```
 
 ![plot of chunk NotAvailableValues](figure/NotAvailableValues-1.png) 
@@ -186,7 +185,7 @@ Zweek<-tbl_df(a2) %>% group_by(interval,week) %>% summarise(mean(steps))
 names(Zweek)<-c("interval","week","meansteps")
 attach(Zweek)
 xyplot(meansteps ~ interval|week, xlab = "", ylab="Average steps per interval", type = "l",
-      main = "Week days and weekends",layout = c(1, 2))
+      main = "Week days and weekends ",layout = c(1, 2))
 ```
 
 ![plot of chunk Weekdays](figure/Weekdays-1.png) 
