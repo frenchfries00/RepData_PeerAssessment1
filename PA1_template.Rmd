@@ -11,7 +11,6 @@ Here is the part of the code corresponding to packages and settings we use. **Sy
 
 
 ```{r libraries, results='hide', message=FALSE}
-library(stringr)
 library(lubridate)
 library(dplyr)
 library(lattice)
@@ -27,6 +26,7 @@ Note that "interval" seems to be a starting point for a five-minute interval of 
 
 ```{r GettingData}
 a <- read.csv(unz("activity.zip","activity.csv"))
+head(a)
 
 a$interval<-as.numeric(a$interval)
 a$steps<-as.numeric(a$steps)
@@ -46,7 +46,8 @@ head(StepsPerDay)
 Here is a histogram for the number of steps taken for day. We see that it really varies: there were two days with more than 20000 steps and two days with less than 2000 steps. The average is 10766.19 steps per day, and the median value is quite close to it.
 
 ```{r sumOfSteps}
-hist(StepsPerDay,breaks=10,col="red",ylab="Days",xlab="Steps per day", main="Steps per day, with missing data not filled ")
+hist(StepsPerDay,breaks=10,col="red",ylab="Days",xlab="Steps per day",
+     main="Steps per day, with missing data not filled")
 mean(StepsPerDay,na.rm=TRUE)
 median(StepsPerDay,na.rm=TRUE)
 ```
@@ -58,8 +59,9 @@ Here is a plot of daily activity pattern. As we can see, the person who took the
 
 Z<-tbl_df(a) %>% group_by(interval) %>% summarise(mean(steps,na.rm=TRUE))
 names(Z)<-c("interval","meansteps")
+head(Z)
 plot(Z$interval,Z$meansteps,type="l",xlab="Day time",ylab="average steps",
-     main="Average of steps per 5 min. interval ",col="blue")
+     main="Average of steps per 5 min. interval",col="blue")
 
 Z$interval[Z$meansteps==max(Z$meansteps)]
 max(Z$meansteps)
@@ -89,7 +91,7 @@ Because of this artificially added average data, the histogram has now a higher 
 
 ```{r NotAvailableValues}
 hist(StepsPerDay,breaks=10,col="red",ylab="Days",xlab="Steps per day", 
-     main="Steps per day, with missing data replaced by average ")
+     main="Steps per day, with missing data replaced by average")
 mean(StepsPerDay)
 median(StepsPerDay)
 ```
@@ -107,7 +109,8 @@ a2$week<-"weekday"
 a2$week[weekdays(a2$date)=="Saturday"|weekdays(a2$date)=="Sunday"]<-"weekend"
 Zweek<-tbl_df(a2) %>% group_by(interval,week) %>% summarise(mean(steps))
 names(Zweek)<-c("interval","week","meansteps")
+head(Zweek)
 attach(Zweek)
 xyplot(meansteps ~ interval|week, xlab = "", ylab="Average steps per interval", type = "l",
-      main = "Week days and weekends ",layout = c(1, 2))
+      main = "Week days and weekends",layout = c(1, 2))
 ```

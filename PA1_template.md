@@ -12,7 +12,6 @@ Here is the part of the code corresponding to packages and settings we use. **Sy
 
 
 ```r
-library(stringr)
 library(lubridate)
 library(dplyr)
 library(lattice)
@@ -29,7 +28,20 @@ Note that "interval" seems to be a starting point for a five-minute interval of 
 
 ```r
 a <- read.csv(unz("activity.zip","activity.csv"))
+head(a)
+```
 
+```
+##   steps       date interval
+## 1    NA 2012-10-01        0
+## 2    NA 2012-10-01        5
+## 3    NA 2012-10-01       10
+## 4    NA 2012-10-01       15
+## 5    NA 2012-10-01       20
+## 6    NA 2012-10-01       25
+```
+
+```r
 a$interval<-as.numeric(a$interval)
 a$steps<-as.numeric(a$steps)
 a$date<-ymd(a$date)
@@ -62,7 +74,8 @@ Here is a histogram for the number of steps taken for day. We see that it really
 
 
 ```r
-hist(StepsPerDay,breaks=10,col="red",ylab="Days",xlab="Steps per day", main="Steps per day, with missing data not filled ")
+hist(StepsPerDay,breaks=10,col="red",ylab="Days",xlab="Steps per day",
+     main="Steps per day, with missing data not filled")
 ```
 
 ![plot of chunk sumOfSteps](figure/sumOfSteps-1.png) 
@@ -90,8 +103,24 @@ Here is a plot of daily activity pattern. As we can see, the person who took the
 ```r
 Z<-tbl_df(a) %>% group_by(interval) %>% summarise(mean(steps,na.rm=TRUE))
 names(Z)<-c("interval","meansteps")
+head(Z)
+```
+
+```
+## Source: local data frame [6 x 2]
+## 
+##   interval meansteps
+## 1        0 1.7169811
+## 2        5 0.3396226
+## 3       10 0.1320755
+## 4       15 0.1509434
+## 5       20 0.0754717
+## 6       25 2.0943396
+```
+
+```r
 plot(Z$interval,Z$meansteps,type="l",xlab="Day time",ylab="average steps",
-     main="Average of steps per 5 min. interval ",col="blue")
+     main="Average of steps per 5 min. interval",col="blue")
 ```
 
 ![plot of chunk StepsPerInterval](figure/StepsPerInterval-1.png) 
@@ -149,7 +178,7 @@ Because of this artificially added average data, the histogram has now a higher 
 
 ```r
 hist(StepsPerDay,breaks=10,col="red",ylab="Days",xlab="Steps per day", 
-     main="Steps per day, with missing data replaced by average ")
+     main="Steps per day, with missing data replaced by average")
 ```
 
 ![plot of chunk NotAvailableValues](figure/NotAvailableValues-1.png) 
@@ -183,9 +212,26 @@ a2$week<-"weekday"
 a2$week[weekdays(a2$date)=="Saturday"|weekdays(a2$date)=="Sunday"]<-"weekend"
 Zweek<-tbl_df(a2) %>% group_by(interval,week) %>% summarise(mean(steps))
 names(Zweek)<-c("interval","week","meansteps")
+head(Zweek)
+```
+
+```
+## Source: local data frame [6 x 3]
+## Groups: interval
+## 
+##   interval    week  meansteps
+## 1        0 weekday 2.25115304
+## 2        0 weekend 0.21462264
+## 3        5 weekday 0.44528302
+## 4        5 weekend 0.04245283
+## 5       10 weekday 0.17316562
+## 6       10 weekend 0.01650943
+```
+
+```r
 attach(Zweek)
 xyplot(meansteps ~ interval|week, xlab = "", ylab="Average steps per interval", type = "l",
-      main = "Week days and weekends ",layout = c(1, 2))
+      main = "Week days and weekends",layout = c(1, 2))
 ```
 
 ![plot of chunk Weekdays](figure/Weekdays-1.png) 
